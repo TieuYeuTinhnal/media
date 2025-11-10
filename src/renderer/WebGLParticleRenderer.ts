@@ -10,7 +10,6 @@ export class WebGLParticleRenderer {
   private program: WebGLProgram | null = null;
   private vertexBuffer: WebGLBuffer | null = null;
   private texture: WebGLTexture | null = null;
-  private maxParticles: number;
 
   // Shader attribute/uniform locations
   private positionLocation: number = -1;
@@ -22,15 +21,14 @@ export class WebGLParticleRenderer {
   /**
    * Creates a WebGL particle renderer
    * @param canvas - The canvas element
-   * @param maxParticles - Maximum number of particles to support
+   * @param _maxParticles - Maximum number of particles to support (reserved for future use)
    */
-  constructor(canvas: HTMLCanvasElement, maxParticles: number = 10000) {
+  constructor(canvas: HTMLCanvasElement, _maxParticles: number = 10000) {
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) {
       throw new Error('WebGL not supported');
     }
     this.gl = gl as WebGLRenderingContext;
-    this.maxParticles = maxParticles;
 
     this.initializeShaders();
     this.initializeBuffers();

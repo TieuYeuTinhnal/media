@@ -50,18 +50,20 @@ describe('ParticlePool', () => {
     }
   });
 
-  test('returns null when pool is full', () => {
+  test('returns null when pool is at max size and all active', () => {
     const pool = new ParticlePool(2);
-    const p1 = pool.acquire();
-    const p2 = pool.acquire();
     
-    if (p1 && p2) {
-      p1.active = true;
-      p2.active = true;
-      
-      const p3 = pool.acquire();
-      expect(p3).toBeNull();
-    }
+    // Acquire and activate exactly 2 particles (the max)
+    const p1 = pool.acquire();
+    if (p1) p1.active = true;
+    
+    const p2 = pool.acquire();
+    if (p2) p2.active = true;
+    
+    // Now pool is at max capacity with all active
+    // Next acquire should return null since we can't expand further
+    const p3 = pool.acquire();
+    expect(p3).toBeNull();
   });
 
   test('releaseAll deactivates all particles', () => {
@@ -85,7 +87,7 @@ describe('ParticlePool', () => {
     
     if (p1 && p2) {
       p1.active = true;
-      p2.active = false;
+      // p2 remains inactive after acquire (default state)
       
       const active = pool.getActive();
       expect(active.length).toBe(1);

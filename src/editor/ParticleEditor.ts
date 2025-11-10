@@ -1,4 +1,4 @@
-import { ParticleConfig, BlendMode } from '../config/ParticleConfig';
+import { ParticleConfig } from '../config/ParticleConfig';
 import { ParticleEmitter } from '../core/ParticleEmitter';
 
 /**
@@ -9,7 +9,6 @@ export class ParticleEditor {
   private config: ParticleConfig;
   private emitter: ParticleEmitter;
   private container: HTMLElement;
-  private controls: Map<string, HTMLElement> = new Map();
 
   /**
    * Creates a particle editor

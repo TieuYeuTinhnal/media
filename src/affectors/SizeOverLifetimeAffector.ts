@@ -31,7 +31,7 @@ export class SizeOverLifetimeAffector implements ParticleAffector {
     public curve: SizeCurve = SizeCurve.LINEAR
   ) {}
 
-  affect(particle: Particle, deltaTime: number): void {
+  affect(particle: Particle, _deltaTime: number): void {
     if (!this.enabled) return;
 
     const t = particle.getNormalizedAge();

@@ -17,7 +17,7 @@ export class GravityAffector implements ParticleAffector {
     public gravityY: number = 98
   ) {}
 
-  affect(particle: Particle, deltaTime: number): void {
+  affect(particle: Particle, _deltaTime: number): void {
     if (!this.enabled) return;
 
     particle.acceleration.x += this.gravityX;

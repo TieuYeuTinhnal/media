@@ -1,5 +1,4 @@
 import { ParticleConfig, BlendMode, createDefaultConfig } from '../config/ParticleConfig';
-import { MathUtils } from '../utils/MathUtils';
 
 /**
  * Collection of common particle effect presets

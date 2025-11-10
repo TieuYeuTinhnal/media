@@ -27,7 +27,7 @@ export class ColorOverLifetimeAffector implements ParticleAffector {
     this.gradient.sort((a, b) => a.time - b.time);
   }
 
-  affect(particle: Particle, deltaTime: number): void {
+  affect(particle: Particle, _deltaTime: number): void {
     if (!this.enabled || this.gradient.length === 0) return;
 
     const t = particle.getNormalizedAge();

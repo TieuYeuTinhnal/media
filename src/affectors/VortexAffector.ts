@@ -1,6 +1,5 @@
 import { Particle } from '../core/Particle';
 import { ParticleAffector } from './ParticleAffector';
-import { Vector2D } from '../utils/Vector2D';
 
 /**
  * Creates a vortex effect that pulls particles in a spiral
