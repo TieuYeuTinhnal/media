@@ -1,0 +1,15 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.tmp
+build/*.png
+build/*.ico
+build/*.icns
+release/
+out/
