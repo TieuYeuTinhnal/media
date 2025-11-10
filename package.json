@@ -1,0 +1,32 @@
+{
+  "name": "spine2d-particle-tool",
+  "version": "1.0.0",
+  "description": "A complete and professional Particle System Tool for Spine2D",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "echo 'No linting configured'",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "spine2d",
+    "particle-system",
+    "particle-effects",
+    "animation",
+    "game-development"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@esotericsoftware/spine-core": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  }
+}
