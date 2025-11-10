@@ -2,6 +2,59 @@
 
 All notable changes to the Spine Particle Studio project.
 
+## [1.1.0] - 2024-11-10
+
+### Added - Production Enhancement Release
+
+#### Distribution & Packaging
+- **electron-builder** integration for cross-platform packaging
+- Build scripts for Windows (NSIS + Portable), macOS (DMG + ZIP), Linux (AppImage + DEB)
+- `npm run pack`, `npm run dist`, `npm run dist:win/mac/linux` commands
+- Application icon configuration (PNG, ICO, ICNS)
+- Build directory with icon README and guidelines
+
+#### Keyboard Shortcuts & Menu System
+- **Application Menu** with File, Edit, Simulation, View, Help sections
+- **File Menu**: New (Ctrl+N), Save (Ctrl+S), Load (Ctrl+O), Export (Ctrl+E)
+- **Simulation Menu**: Toggle simulation (Space), Recording (Ctrl+R), Reset (Ctrl+Shift+R)
+- **Help Menu**: Documentation and About dialog
+- **IPC Menu Events**: Menu actions trigger UI controller methods
+
+#### Enhanced Features
+- **Texture Loading**: Full support for loading custom PNG/JPG textures
+- **Texture UI**: Display loaded texture filename in settings
+- **Reset Simulation**: Clear all particles and restart
+- **Documentation Dialog**: In-app keyboard shortcut reference
+- **Menu Integration**: Native OS menu bar with shortcuts
+
+#### Electron Upgrade
+- **Electron 33.2.0**: Upgraded from 28.0.0 for security and performance
+- Latest stable Electron with security patches
+- Improved performance and compatibility
+
+#### Documentation
+- **BUILD.md**: Complete guide for building and distributing
+- **FEATURES.md**: Comprehensive list of all features
+- **Icon Guidelines**: Instructions for creating application icons
+- Enhanced README with distribution information
+
+#### Developer Experience
+- Better .gitignore for build artifacts (release/, out/)
+- Icon placeholder directory with documentation
+- Build directory structure for multi-platform icons
+- Development and production build separation
+
+### Changed
+- Updated package.json with electron-builder configuration
+- Enhanced main.js with menu system and keyboard shortcuts
+- Improved UIController with texture loading and menu handlers
+- Updated dependencies to latest stable versions
+
+### Security
+- Electron upgraded to 33.2.0 (addresses ASAR vulnerability from 28.0.0)
+- Clean CodeQL scan (0 alerts)
+- Secure IPC communication maintained
+
 ## [1.0.0] - 2024-11-10
 
 ### Added - Initial Release

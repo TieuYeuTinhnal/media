@@ -1,8 +1,127 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 let mainWindow;
+
+function createMenu() {
+  const template = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'New Emitter',
+          accelerator: 'CmdOrCtrl+N',
+          click: () => {
+            mainWindow.webContents.send('menu-new-emitter');
+          }
+        },
+        { type: 'separator' },
+        {
+          label: 'Save Project',
+          accelerator: 'CmdOrCtrl+S',
+          click: () => {
+            mainWindow.webContents.send('menu-save-project');
+          }
+        },
+        {
+          label: 'Load Project',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => {
+            mainWindow.webContents.send('menu-load-project');
+          }
+        },
+        { type: 'separator' },
+        {
+          label: 'Export to Spine',
+          accelerator: 'CmdOrCtrl+E',
+          click: () => {
+            mainWindow.webContents.send('menu-export-spine');
+          }
+        },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' }
+      ]
+    },
+    {
+      label: 'Simulation',
+      submenu: [
+        {
+          label: 'Start/Stop Simulation',
+          accelerator: 'Space',
+          click: () => {
+            mainWindow.webContents.send('menu-toggle-simulation');
+          }
+        },
+        {
+          label: 'Start/Stop Recording',
+          accelerator: 'CmdOrCtrl+R',
+          click: () => {
+            mainWindow.webContents.send('menu-toggle-recording');
+          }
+        },
+        { type: 'separator' },
+        {
+          label: 'Reset Simulation',
+          accelerator: 'CmdOrCtrl+Shift+R',
+          click: () => {
+            mainWindow.webContents.send('menu-reset-simulation');
+          }
+        }
+      ]
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forceReload' },
+        { role: 'toggleDevTools' },
+        { type: 'separator' },
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' }
+      ]
+    },
+    {
+      label: 'Help',
+      submenu: [
+        {
+          label: 'Documentation',
+          click: () => {
+            mainWindow.webContents.send('menu-show-docs');
+          }
+        },
+        {
+          label: 'About',
+          click: () => {
+            dialog.showMessageBox(mainWindow, {
+              type: 'info',
+              title: 'About Spine Particle Studio',
+              message: 'Spine Particle Studio v1.0.0',
+              detail: 'Professional particle effects editor with Spine2D export support.\n\nBuilt with Electron, TypeScript, and Matter.js.'
+            });
+          }
+        }
+      ]
+    }
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -16,10 +135,14 @@ function createWindow() {
       enableRemoteModule: true
     },
     backgroundColor: '#1e1e1e',
-    title: 'Spine Particle Studio'
+    title: 'Spine Particle Studio',
+    icon: path.join(__dirname, 'build/icon.png')
   });
 
   mainWindow.loadFile('index.html');
+
+  // Create application menu
+  createMenu();
 
   // Open DevTools in development
   if (process.env.NODE_ENV === 'development') {

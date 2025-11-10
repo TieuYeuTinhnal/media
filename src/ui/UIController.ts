@@ -35,6 +35,19 @@ export class UIController {
             }
         });
 
+        // Texture loading
+        document.getElementById('loadTextureBtn')?.addEventListener('click', () => this.loadTexture());
+
+        // Menu shortcuts (from Electron menu)
+        ipcRenderer.on('menu-new-emitter', () => this.createNewEmitter());
+        ipcRenderer.on('menu-save-project', () => this.saveProject());
+        ipcRenderer.on('menu-load-project', () => this.loadProject());
+        ipcRenderer.on('menu-export-spine', () => this.exportSpine());
+        ipcRenderer.on('menu-toggle-simulation', () => this.toggleSimulation());
+        ipcRenderer.on('menu-toggle-recording', () => this.toggleRecording());
+        ipcRenderer.on('menu-reset-simulation', () => this.resetSimulation());
+        ipcRenderer.on('menu-show-docs', () => this.showDocumentation());
+
         // Tabs
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -315,6 +328,34 @@ export class UIController {
             this.updateInputsFromConfig(preset);
             alert(`Preset "${presetName}" loaded!`);
         }
+    }
+
+    private async loadTexture(): Promise<void> {
+        const result = await ipcRenderer.invoke('load-texture');
+        if (result.success && this.selectedEmitter) {
+            this.selectedEmitter.config.texture = result.path;
+            const textureNameEl = document.getElementById('textureName');
+            if (textureNameEl) {
+                const fileName = result.path.split(/[\\/]/).pop();
+                textureNameEl.textContent = fileName || '';
+            }
+            alert('Texture loaded: ' + result.path);
+        } else if (!result.canceled) {
+            alert('Failed to load texture');
+        }
+    }
+
+    private resetSimulation(): void {
+        this.particleManager.reset();
+        this.animationBaker.clear();
+        const simulateBtn = document.getElementById('simulateBtn');
+        const recordBtn = document.getElementById('recordBtn');
+        simulateBtn?.classList.remove('active');
+        recordBtn?.classList.remove('active');
+    }
+
+    private showDocumentation(): void {
+        alert('Documentation\n\nCheck the docs/README.md file for detailed usage instructions.\n\nKeyboard Shortcuts:\n- Ctrl/Cmd+N: New Emitter\n- Ctrl/Cmd+S: Save Project\n- Ctrl/Cmd+O: Load Project\n- Ctrl/Cmd+E: Export to Spine\n- Space: Toggle Simulation\n- Ctrl/Cmd+R: Toggle Recording\n- Ctrl/Cmd+Shift+R: Reset Simulation');
     }
 
     updateParticleCount(count: number): void {

@@ -8,4 +8,8 @@ dist/
 .vscode/
 .idea/
 *.tmp
-build/
+build/*.png
+build/*.ico
+build/*.icns
+release/
+out/
