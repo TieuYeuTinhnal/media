@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spine Particle Studio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel - Tree View -->
+        <div class="left-panel">
+            <div class="panel-header">
+                <h3>Tree</h3>
+            </div>
+            <div class="tree-content" id="treeContent">
+                <!-- Emitter list will be populated here -->
+            </div>
+            <div class="panel-footer">
+                <button id="newEmitterBtn" class="btn-primary">New</button>
+            </div>
+        </div>
+
+        <!-- Center Panel - Canvas -->
+        <div class="center-panel">
+            <div class="canvas-container">
+                <canvas id="mainCanvas"></canvas>
+            </div>
+            <div class="control-bar">
+                <div class="control-group">
+                    <label>Particles: <span id="particleCount">0</span></label>
+                </div>
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="loopCheckbox" checked>
+                        Loop
+                    </label>
+                </div>
+                <div class="control-group">
+                    <button id="simulateBtn" class="btn-simulate">Simulate</button>
+                    <button id="recordBtn" class="btn-record">Record</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Settings Tabs -->
+        <div class="right-panel">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="init">Init</button>
+                <button class="tab-btn" data-tab="update">Update</button>
+                <button class="tab-btn" data-tab="physics">Physics</button>
+                <button class="tab-btn" data-tab="settings">Settings</button>
+            </div>
+
+            <!-- Init Tab -->
+            <div class="tab-content active" id="init-tab">
+                <div class="settings-group">
+                    <h4>Timing</h4>
+                    <div class="input-group">
+                        <label>Delay (ms)</label>
+                        <input type="number" id="init-delay" min="0" max="10000" value="0" step="100">
+                    </div>
+                    <div class="input-group">
+                        <label>Duration (ms)</label>
+                        <input type="number" id="init-duration" min="0" max="60000" value="2000" step="100">
+                    </div>
+                    <div class="input-group">
+                        <label>Time Scale</label>
+                        <input type="number" id="init-timeScale" min="0" max="5" value="1" step="0.1">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Emission</h4>
+                    <div class="input-group">
+                        <label>Radius</label>
+                        <input type="number" id="init-radius" min="0" max="500" value="10" step="1">
+                    </div>
+                    <div class="input-group">
+                        <label>Count</label>
+                        <input type="number" id="init-count" min="1" max="10000" value="100" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Rate (p/s)</label>
+                        <input type="number" id="init-rate" min="1" max="1000" value="50" step="5">
+                    </div>
+                    <div class="input-group">
+                        <label>Variety (%)</label>
+                        <input type="number" id="init-variety" min="0" max="100" value="20" step="5">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Life</h4>
+                    <div class="input-group">
+                        <label>Min (s)</label>
+                        <input type="number" id="init-lifeMin" min="0.1" max="10" value="1" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Max (s)</label>
+                        <input type="number" id="init-lifeMax" min="0.1" max="10" value="2" step="0.1">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Speed</h4>
+                    <div class="input-group">
+                        <label>Min</label>
+                        <input type="number" id="init-speedMin" min="0" max="1000" value="50" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Max</label>
+                        <input type="number" id="init-speedMax" min="0" max="1000" value="150" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Angle (deg)</label>
+                        <input type="number" id="init-angle" min="0" max="360" value="270" step="15">
+                    </div>
+                    <div class="input-group">
+                        <label>Spread (deg)</label>
+                        <input type="number" id="init-spread" min="0" max="360" value="30" step="15">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Scale</h4>
+                    <div class="input-group">
+                        <label>Min</label>
+                        <input type="number" id="init-scaleMin" min="0.1" max="10" value="0.5" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Max</label>
+                        <input type="number" id="init-scaleMax" min="0.1" max="10" value="1.5" step="0.1">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Rotation</h4>
+                    <div class="input-group">
+                        <label>Min (deg)</label>
+                        <input type="number" id="init-rotationMin" min="-360" max="360" value="0" step="15">
+                    </div>
+                    <div class="input-group">
+                        <label>Max (deg)</label>
+                        <input type="number" id="init-rotationMax" min="-360" max="360" value="360" step="15">
+                    </div>
+                    <div class="input-group">
+                        <label>Speed (deg/s)</label>
+                        <input type="number" id="init-rotationSpeed" min="-360" max="360" value="0" step="15">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Mass</h4>
+                    <div class="input-group">
+                        <label>Min</label>
+                        <input type="number" id="init-massMin" min="0.1" max="100" value="1" step="0.5">
+                    </div>
+                    <div class="input-group">
+                        <label>Max</label>
+                        <input type="number" id="init-massMax" min="0.1" max="100" value="2" step="0.5">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Appearance</h4>
+                    <div class="input-group">
+                        <label>Color</label>
+                        <input type="color" id="init-color" value="#ffffff">
+                    </div>
+                    <div class="input-group">
+                        <label>Shape</label>
+                        <select id="init-shape">
+                            <option value="circle">Circle</option>
+                            <option value="square">Square</option>
+                            <option value="triangle">Triangle</option>
+                            <option value="star">Star</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Texture</label>
+                        <button id="loadTextureBtn" class="btn-secondary">Load...</button>
+                        <span id="textureName"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Tab -->
+            <div class="tab-content" id="update-tab">
+                <div class="settings-group">
+                    <h4>Forces</h4>
+                    <div class="input-group">
+                        <label>Gravity X</label>
+                        <input type="number" id="update-gravityX" min="-1000" max="1000" value="0" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Gravity Y</label>
+                        <input type="number" id="update-gravityY" min="-1000" max="1000" value="100" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Wind X</label>
+                        <input type="number" id="update-windX" min="-1000" max="1000" value="0" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Wind Y</label>
+                        <input type="number" id="update-windY" min="-1000" max="1000" value="0" step="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Drag</label>
+                        <input type="number" id="update-drag" min="0" max="1" value="0.01" step="0.01">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Scale Over Time</h4>
+                    <div class="input-group">
+                        <label>Start</label>
+                        <input type="number" id="update-scaleStart" min="0" max="10" value="1" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>End</label>
+                        <input type="number" id="update-scaleEnd" min="0" max="10" value="0" step="0.1">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Alpha Over Time</h4>
+                    <div class="input-group">
+                        <label>Start</label>
+                        <input type="number" id="update-alphaStart" min="0" max="1" value="1" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>End</label>
+                        <input type="number" id="update-alphaEnd" min="0" max="1" value="0" step="0.1">
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Color Over Time</h4>
+                    <div class="input-group">
+                        <label>Start Color</label>
+                        <input type="color" id="update-colorStart" value="#ffffff">
+                    </div>
+                    <div class="input-group">
+                        <label>End Color</label>
+                        <input type="color" id="update-colorEnd" value="#000000">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Physics Tab -->
+            <div class="tab-content" id="physics-tab">
+                <div class="settings-group">
+                    <h4>Collision</h4>
+                    <div class="input-group">
+                        <label>Radius</label>
+                        <input type="number" id="physics-radius" min="1" max="100" value="5" step="1">
+                    </div>
+                    <div class="input-group">
+                        <label>Bounce</label>
+                        <input type="number" id="physics-bounce" min="0" max="1" value="0.5" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Friction</label>
+                        <input type="number" id="physics-friction" min="0" max="1" value="0.1" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="physics-killOnCollision">
+                            Kill on Collision
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Layer</h4>
+                    <div class="input-group">
+                        <label>Collision Layer</label>
+                        <select id="physics-layer">
+                            <option value="0">Layer 0</option>
+                            <option value="1">Layer 1</option>
+                            <option value="2">Layer 2</option>
+                            <option value="3">Layer 3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Boundaries</h4>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="physics-bounds" checked>
+                            Enable Bounds
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="physics-killOffscreen">
+                            Kill Offscreen
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings-tab">
+                <div class="settings-group">
+                    <h4>Project</h4>
+                    <button id="saveProjectBtn" class="btn-primary">Save Project</button>
+                    <button id="loadProjectBtn" class="btn-secondary">Load Project</button>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Export</h4>
+                    <div class="input-group">
+                        <label>FPS</label>
+                        <input type="number" id="export-fps" min="30" max="120" value="60" step="30">
+                    </div>
+                    <button id="exportSpineBtn" class="btn-primary">Export to Spine</button>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Performance</h4>
+                    <div class="input-group">
+                        <label>Max Particles</label>
+                        <input type="number" id="perf-maxParticles" min="100" max="100000" value="10000" step="100">
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="perf-pooling" checked>
+                            Object Pooling
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Presets</h4>
+                    <select id="presetsDropdown">
+                        <option value="">-- Select Preset --</option>
+                        <option value="fire">Fire</option>
+                        <option value="smoke">Smoke</option>
+                        <option value="explosion">Explosion</option>
+                        <option value="sparkles">Sparkles</option>
+                        <option value="rain">Rain</option>
+                        <option value="snow">Snow</option>
+                        <option value="magicPortal">Magic Portal</option>
+                        <option value="bloodSplatter">Blood Splatter</option>
+                        <option value="dustCloud">Dust Cloud</option>
+                        <option value="electricShock">Electric Shock</option>
+                    </select>
+                    <button id="loadPresetBtn" class="btn-secondary">Load Preset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dist/renderer.js"></script>
+</body>
+</html>
